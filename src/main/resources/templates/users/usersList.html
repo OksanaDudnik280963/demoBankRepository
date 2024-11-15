@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head lang="en" th:include="fragments/header :: header">
+    <title th:id="metaTitle">Users List</title>
+</head>
+<body>
+<h1 align="center">Users List</h1>
+<a href="/api/users/new">Create New User</a>
+<br/><br/>
+<table border="1" cellpadding="10">
+    <thead>
+    <tr>
+        <th>Login</th>
+        <th>Password</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Gender</th>
+        <th>Phone Number</th>
+        <th>Picture</th>
+        <th>System</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="us : ${users}">
+        <td th:text="${us.login}">Login</td>
+        <td th:text="${us.password}">Password</td>
+        <td th:text="${us.firstName}">FirstName</td>
+        <td th:text="${us.lastName}">LastName</td>
+        <td th:text="${us.fullName}">FullName</td>
+        <td th:text="${us.email}">Email</td>
+        <td th:text="${us.gender}">Gender</td>
+        <td th:text="${us.phoneNumber}">PhoneNumber</td>
+        <td th:text="${us.picture}">Picture</td>
+        <td th:text="${us.systemName}">System</td>
+        <td th:text="${us.roleName}">Role</td>
+        <td>
+            <a th:href="@{'/api/users/edit/?id='+${us.id}}">Edit</a>
+            <a th:href="@{'/api/users/delete/?id='+${us.id}}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div lang="en" th:replace="fragments/footer :: footer"> </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:include="fragments/header :: header">
+    <title th:id="metaTitle">Create New User</title>
+</head>
+<body>
+<div align="center">
+    <h1 align="center">Create New User</h1>
+    <br/><br/>
+    <form action="#" th:action="@{'/api/users/added/'}" th:object="${user}" method="post">
+        <table border="1" cellpadding="10">
+            <tr>
+                <td>Login</td>
+                <td><input type="text" th:field="${user.login}"/></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="text" th:field="${user.password}"/></td>
+            </tr>
+
+            <tr>
+                <td>FirstName</td>
+                <td><input type="text" th:field="${user.firstName}"></td>
+            </tr>
+            <tr>
+                <td>LastName</td>
+                <td><input type="text" th:field="${user.lastName}"></td>
+            </tr>
+            <tr>
+                <td>FullName</td>
+                <td><input type="text" th:field="${user.fullName}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" th:field="${user.email}"></td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+                <td>
+                    <select name="Gender" th:field="${user.gender}">
+                        <option th:each="gender : ${T(com.optum.payment.system.entities.enums.Gender).values()}"
+                                th:value="${gender}"
+                                th:text="${gender.name}"/>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>PhoneNumber</td>
+                <td><input type="text" th:field="${user.phoneNumber}"></td>
+            </tr>
+            <tr>
+                <td>Picture</td>
+                <td><input type="text" th:field="${user.picture}"></td>
+            </tr>
+            <tr>
+                <td>System</td>
+                <td>
+                    <select name="System" th:field="${user.system}">
+                        <option th:each="syst : ${T(com.optum.payment.system.entities.enums.SystemName).values()}"
+                                th:value="${syst}"
+                                th:text="${syst.name}"/>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>
+                    <select name="Role" th:field="${user.role}">
+                        <option th:each="rol : ${T(com.optum.payment.system.entities.enums.RoleName).values()}"
+                                th:value="${rol}"
+                                th:text="${rol.name}"/>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" name="action">Save</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div lang="en" th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
