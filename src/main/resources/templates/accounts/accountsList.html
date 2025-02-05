@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:include="fragments/header :: header(metaTitle='Accounts List')">
+    <title th:id="${metaTitle} ? ${metaTitle} : 'Accounts List'"></title>
+</head>
+
+<body>
+<div class="container mt-5">
+
+
+    <a href="/api/accounts/new/">Create New Account</a>
+    <br/><br/>
+    <!--<form th:action="@{/api/accounts/list}" th:object="${accounts}" method="get">-->
+    <table class="table table-striped">
+        <caption>Accounts List</caption>
+        <thead class="table-header">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Other Name</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Alternative Phone Number</th>
+            <th>Status</th>
+            <th>State Of Origin</th>
+            <th>Sort Code</th>
+            <th>Account Number</th>
+            <th>Bank Name</th>
+            <th>Account Balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="accounts" type="List<com.example.demoBankRepository.entity.Account>"*/-->
+        <tr th:each="account, iStat :  ${accounts}"
+            th:style="${iStat.odd}? 'font-weight: bold;'"
+            th:alt-title="${iStat.even}? 'even' : 'odd'">
+            <td th:text="${account.firstName}">Account First Name</td>
+            <td th:text="${account.lastName}">Account Last Name</td>
+            <td th:text="${account.otherName}">Account Other Name</td>
+            <td th:text="${account.gender.name()}">Gender</td>
+            <td th:text="${account.address}">Address</td>
+            <td th:text="${account.email}">Email</td>
+            <td th:text="${account.phoneNumber}">Phone Number</td>
+            <td th:text="${account.alternativePhoneNumber}">Alternative Phone Number</td>
+            <td th:text="${account.status.name()}">Status</td>
+            <td th:text="${account.stateOfOrigin.name()}">Status Of Origin</td>
+            <td th:text="${account.sortCode}">Sort Code</td>
+            <td th:text="${account.accountNumber}">Account Number</td>
+            <td th:text="${account.bankName}">Bank Name</td>
+            <td th:text="${account.accountBalance}">Account Balance</td>
+<!--
+            <td>
+                <a th:href="@{'/api/accounts/edit/'+${account.id}}">Edit</a>
+                <a th:href="@{'/api/accounts/delete/'+${account.id}}">Delete</a>
+            </td>
+-->
+        </tr>
+        </tbody>
+    </table>
+
+    <br/><br/>
+
+    <!--<nav aria-label="Page navigation"  class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/api/accounts/list/?page=0}">First</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/api/accounts/list/?page=${currentPage - 1}}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, accountPage.totalPages - 1)}"
+                th:classappend="${currentPage == i ? 'active' : ''}">
+                <a class="page-link"> th:href="@{/api/accounts/list/?page=(${i})}" th:text="${i + 1}"</a>
+            </li>
+
+            <li class="page-item" th:classappend="${currentPage == accountPage.totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/api/accounts/list/?page=${currentPage + 1}}">Next</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == accountPage.totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" th:href="@{/api/accounts/list/?page=${accountPage.totalPages - 1}}">Last</a>
+            </li>
+        </ul>
+    </nav>-->
+    <!--</form>-->
+    <div th:if="${accountPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/api/acconts/list(size=${accountPage.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber==accountPage.number + 1} ? active"></a>
+    </div>
+<br/><br/>
+</div>
+</body>
+<div lang="en" th:replace="fragments/footer.html::footer"></div>
+
+</html>
