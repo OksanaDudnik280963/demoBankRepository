@@ -1,6 +1,5 @@
 package com.example.demoBankRepository.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.Formatter;
 
@@ -12,7 +11,7 @@ import java.util.Locale;
 public class DateFormatter implements Formatter<Date> {
 
 
-    private MessageSource messageSource;
+    private final MessageSource messageSource;
 
     //@Autowired
     public DateFormatter(MessageSource messageSource) {

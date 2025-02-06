@@ -1,7 +1,6 @@
 package com.example.demoBankRepository.utils;
 
 
-import com.example.demoBankRepository.dto.AccountRequest;
 import com.example.demoBankRepository.dto.TransactionRequest;
 import com.example.demoBankRepository.entity.Account;
 import com.example.demoBankRepository.global.*;
