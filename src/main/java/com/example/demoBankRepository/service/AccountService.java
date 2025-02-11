@@ -18,4 +18,6 @@ public interface AccountService {
     List<Account> findAll(Sort sort);
     Page<Account> findAll(Pageable pageable);
     Page<Account> findPaginated(Pageable pageable);
+    Account save(AccountRequest account);
+    void delete(Account account);
 }

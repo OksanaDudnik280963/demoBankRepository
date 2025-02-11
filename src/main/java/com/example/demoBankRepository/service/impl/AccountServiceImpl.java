@@ -84,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account newAccount(AccountRequest accountRequest) {
         CodeGenerator codeGenerator = new CodeGenerator();
-        if (accountRequest!=null && !accountRequest.getEmail().isEmpty() && accountRepository.existsByEmail(accountRequest.getEmail())) {
+        if (accountRequest != null && !accountRequest.getEmail().isEmpty() && accountRepository.existsByEmail(accountRequest.getEmail())) {
             AccountInfo accountInfo = AccountInfo.builder()
                     .accountBalance(accountRequest.getAccountBalance())
                     .accountNumber(accountRequest.getAccountNumber())
@@ -116,18 +116,18 @@ public class AccountServiceImpl implements AccountService {
             return accountRepository.save(newAccount);
         }
     }
+
     public Account getAccount(String sortCode, String accountNumber) {
         Optional<Account> account = accountRepository
                 .findBySortCodeAndAccountNumber(sortCode, accountNumber);
 
         account.ifPresent(value ->
                 value.setTransactions(transactionRepository.findTransactionBySourceAccountSortCodeAndSourceAccountNumber
-                                                (value.getSortCode(), value.getAccountNumber())));
+                        (value.getSortCode(), value.getAccountNumber())));
 
 
         return account.orElse(null);
     }
-
 
 
     public Account getAccount(String accountNumber) {
@@ -157,7 +157,7 @@ public class AccountServiceImpl implements AccountService {
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
         List<Account> list;
-        List<Account> accounts=listAccounts();
+        List<Account> accounts = listAccounts();
         if (accounts.size() < startItem) {
             list = Collections.emptyList();
         } else {
@@ -168,4 +168,82 @@ public class AccountServiceImpl implements AccountService {
         return new PageImpl<Account>(list, PageRequest.of(currentPage, pageSize), accounts.size());
     }
 
+    public Account save(AccountRequest account) {
+        Account realAccount = getAccount(account.getAccountNumber());
+        if (realAccount != null && realAccount.getId() != null) {
+            realAccount.setAccountBalance(account.getAccountBalance());
+            realAccount.setBankName(account.getBankName());
+            realAccount.setFirstName(account.getFirstName());
+            realAccount.setLastName(account.getLastName());
+            realAccount.setAccountNumber(account.getAccountNumber());
+            realAccount.setAddress(account.getAddress());
+            realAccount.setAlternativePhoneNumber(account.getAlternativePhoneNumber());
+            realAccount.setPhoneNumber(account.getPhoneNumber());
+            realAccount.setEmail(account.getEmail());
+            realAccount.setGender(account.getGender());
+            realAccount.setSortCode(account.getSortCode());
+            realAccount.setOtherName(account.getOtherName());
+            realAccount.setStateOfOrigin(account.getStateOfOrigin());
+            realAccount.setStatus(account.getStatus());
+
+            return accountRepository.save(realAccount);
+        } else {
+            BankResponse bankResponse = createAccount(account);
+            if (bankResponse.getResponseCode().equals(ACCOUNT_CREATION_SUCCESS)) {
+                return getAccount(bankResponse.getAccountInfo().getAccountNumber());
+            }
+
+            if (bankResponse.getResponseCode().equals(ACCOUNT_EXISTS_CODE)
+            ) {
+                 Account real = getAccountFromAccountRequest(account);
+                return accountRepository.save(real);
+            } else {
+                return null;
+            }
+        }
+
+    }
+
+    @Override
+    public void delete(Account account) {
+        accountRepository.delete(account);
+        return;
+    }
+
+    private Account getAccountFromAccountRequest(AccountRequest accountRequest) {
+        Account realAccount = getAccount(accountRequest.getAccountNumber());
+        if (realAccount != null && realAccount.getId()!=null) {
+
+            realAccount.setAccountBalance(accountRequest.getAccountBalance());
+            realAccount.setBankName(accountRequest.getBankName());
+            realAccount.setFirstName(accountRequest.getFirstName());
+            realAccount.setLastName(accountRequest.getLastName());
+            realAccount.setAccountNumber(accountRequest.getAccountNumber());
+            realAccount.setAddress(accountRequest.getAddress());
+            realAccount.setAlternativePhoneNumber(accountRequest.getAlternativePhoneNumber());
+            realAccount.setPhoneNumber(accountRequest.getPhoneNumber());
+            realAccount.setEmail(accountRequest.getEmail());
+            realAccount.setGender(accountRequest.getGender());
+            realAccount.setSortCode(accountRequest.getSortCode());
+            realAccount.setOtherName(accountRequest.getOtherName());
+            realAccount.setStateOfOrigin(accountRequest.getStateOfOrigin());
+            realAccount.setStatus(accountRequest.getStatus());
+            return realAccount;
+        } else {
+            Account account = new Account();
+            account.setAccountBalance(accountRequest.getAccountBalance());
+            account.setBankName(accountRequest.getBankName());
+            account.setFirstName(accountRequest.getFirstName());
+            account.setLastName(accountRequest.getLastName());
+            account.setAccountNumber(accountRequest.getAccountNumber());
+            account.setAddress(accountRequest.getAddress());
+            account.setAlternativePhoneNumber(accountRequest.getAlternativePhoneNumber());
+            account.setPhoneNumber(accountRequest.getPhoneNumber());
+            account.setSortCode(accountRequest.getSortCode());
+            account.setOtherName(accountRequest.getOtherName());
+            account.setStateOfOrigin(accountRequest.getStateOfOrigin());
+            account.setStatus(accountRequest.getStatus());
+            return account;
+        }
+    }
 }

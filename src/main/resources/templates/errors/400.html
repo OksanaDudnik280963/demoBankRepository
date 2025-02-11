@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="ru">
+<head lang="en" th:include="fragments/header :: header(metaTitle='Error 400')">
+    <title th:id="metaTitle">Error 400</title>
+</head>
+
+<body class="container">
+<div id="page 400">
+    <div th:include="fragments/errorMessage :: errorMessage(errMsg)">
+        <h1 th:id="errMsg" th:object="${errMsg}"></h1>
+        <!--<a th:id="errMsg" th:title="${errMsg}"></a>-->
+    </div>
+
+</div>
+<br/><br/>
+<div lang="en" th:replace="fragments/footer.html::footer()"></div>
+
+</body>
+</html>

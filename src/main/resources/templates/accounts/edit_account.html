@@ -3,10 +3,12 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<head lang="en" th:include="fragments/header :: header">
+<head lang="en" th:include="fragments/header :: header(metaTitle='Edit Account')">
+<!--
     <link th:rel="stylesheet" th:href="@{assets/password-strength-meter/password.min.css}"/>
     <script th:src="@{assets/password-strength-meter/password.min.js}"></script>
-    <title th:id="metaTitle">Edit User</title>
+-->
+    <title th:id="metaTitle">Edit Account</title>
     <meta charset="UTF-8">
 
 </head>
@@ -14,11 +16,11 @@
 <div align="center">
     <h1 align="center">Create New User</h1>
     <br/><br/>
-    <form action="#" th:action="@{'/api/accounts/new/'}" th:object="${account}" method="post">
+    <form action="#" th:action="@{'/api/accounts/edit/'}" th:object="${account}" method="post">
         <table border="1" cellpadding="10">
             <tr>
                 <td>
-                    <label th:text="${'FirstName'}" th:field="${account.firstName}"></label>
+                    <label th:text="${'First Name'}" th:field="${account.firstName}"></label>
                 </td>
                 <td><input type="text" th:field="${account.firstName}"></td>
                 <td>
@@ -58,7 +60,7 @@
                 </td>
                 <td>
                     <select name="Gender" th:field="${account.gender}">
-                        <option th:each="gender : ${T(com.example.demoBankRepositoryentity.enums.Gender).values()}"
+                        <option th:each="gender : ${T(com.example.demoBankRepository.entity.enums.Gender).values()}"
                                 th:value="${gender}"
                                 th:text="${gender.name}"/>
                     </select>
@@ -73,7 +75,7 @@
                 </td>
                 <td><input type="text" th:field="${account.phoneNumber}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errorclass="error" th:errors="*{phoneNumber}"/>
+                    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errorclass="error" th:errors="*{phoneNumber}"></p>
                 </td>
             </tr>
             <tr><!--private String alternativePhoneNumber;-->
@@ -82,17 +84,17 @@
                 </td>
                 <td><input type="text" th:field="${account.alternativePhoneNumber}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('alternativePhoneNumber')}" th:errorclass="error" th:errors="*{alternativePhoneNumber}"/>
+                    <p th:if="${#fields.hasErrors('alternativePhoneNumber')}" th:errorclass="error" th:errors="*{alternativePhoneNumber}"></p>
                 </td>
             </tr>
             <tr><!--private String address;-->
                 <td>
                     <label th:text="${'Address'}" th:field="${account.address}"></label>
                 </td>
-                <td>
+
                 <td><input type="text" th:field="${account.address}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}"/>
+                    <p th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}"></p>
                 </td>
             </tr>
             <tr><!--private String status;-->
@@ -101,13 +103,13 @@
                 </td>
                 <td>
                     <select name="Status" th:field="${account.status}">
-                        <option th:each="stat : ${T(com.example.demoBankRepositoryentity.enums.StatusName).values()}"
+                        <option th:each="stat : ${T(com.example.demoBankRepository.entity.enums.StatusName).values()}"
                                 th:value="${stat}"
                                 th:text="${stat.name}"/>
                     </select>
                 </td>
                 <td>
-                    <p th:if="${#fields.hasErrors('status')}" th:errorclass="error" th:errors="*{status}"/>
+                    <p th:if="${#fields.hasErrors('status')}" th:errorclass="error" th:errors="*{status}"></p>
                 </td>
             </tr>
             <tr><!--private String stateOfOrigin;-->
@@ -116,14 +118,14 @@
                 </td>
                 <td>
                     <select name="Status" th:field="${account.stateOfOrigin}">
-                        <option th:each="stat : ${T(com.example.demoBankRepositoryentity.enums.StatusName).values()}"
+                        <option th:each="stat : ${T(com.example.demoBankRepository.entity.enums.StatusName).values()}"
                                 th:value="${stat}"
                                 th:text="${stat.name}"/>
                     </select>
                 </td>
 
                 <td>
-                    <p th:if="${#fields.hasErrors('stateOfOrigin')}" th:errorclass="error" th:errors="*{stateOfOrigin}"/>
+                    <p th:if="${#fields.hasErrors('stateOfOrigin')}" th:errorclass="error" th:errors="*{stateOfOrigin}"></p>
                 </td>
             </tr>
             <tr><!--private String sortCode;"12-13-14"-->
@@ -132,7 +134,7 @@
                 </td>
                 <td><input type="text" th:field="${account.sortCode}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('sortCode')}" th:errorclass="error" th:errors="*{sortCode}"/>
+                    <p th:if="${#fields.hasErrors('sortCode')}" th:errorclass="error" th:errors="*{sortCode}"></p>
                 </td>
             </tr>
             <tr><!--private String accountNumber;;"12131478"-->
@@ -141,7 +143,7 @@
                 </td>
                 <td><input type="text" th:field="${account.accountNumber}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('accountNumber')}" th:errorclass="error" th:errors="*{accountNumber}"/>
+                    <p th:if="${#fields.hasErrors('accountNumber')}" th:errorclass="error" th:errors="*{accountNumber}"></p>
                 </td>
             </tr>
 
@@ -162,10 +164,10 @@
                     <label th:text="${'Account Balance'}" th:field="${account.accountBalance}"></label>
                 </td>
                 <td>
-                    <input type="number" th:value="${account.accountBalance}"  th:field="${account.accountBalance}" class="form-control">
+                    <input type="text" th:value="${account.accountBalance.toString()}"  th:field="${account.accountBalance}" class="form-control">
                 </td>
                 <td>
-                    <p th:if="${#fields.hasErrors('accountBalance')}" th:errorclass="error" th:errors="*{accountBalance}"/>
+                    <p th:if="${#fields.hasErrors('accountBalance')}" th:errorclass="error" th:errors="*{accountBalance}"></p>
                 </td>
             </tr>
             <tr>

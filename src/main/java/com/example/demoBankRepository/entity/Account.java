@@ -30,8 +30,10 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   id;
 
+    @NotBlank(message = "First name is mandatory")
     @Column(name = "FIRST_NAME")
     private String firstName;
+    @NotBlank(message = "Last name is mandatory")
     @Column(name = "LAST_NAME")
     private String lastName;
     @Column(name = "OTHER_NAME")
@@ -44,12 +46,12 @@ public class Account {
     @Column(name = "EMAIL")
     private String email;
 
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,13}$", message = "Phone number")
-    @Size(max = 13)
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,17}$", message = "Phone number")
+    @Size(max = 17)
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,13}$", message = "Phone number")
-    @Size(max = 13)
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,17}$", message = "Phone number")
+    @Size(max = 17)
     @Column(name = "ALTERNATIVE_PHONE_NUMBER")
     private String alternativePhoneNumber;
     @Column(name = "STATUS")

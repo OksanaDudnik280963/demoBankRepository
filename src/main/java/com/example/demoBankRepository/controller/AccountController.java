@@ -20,14 +20,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+import static com.example.demoBankRepository.global.Constants.ACCOUNT_CREATION_SUCCESS;
+import static com.example.demoBankRepository.global.Constants.ACCOUNT_EXISTS_CODE;
 import static com.example.demoBankRepository.utils.JsonUtils.toJson;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.TEXT_HTML_VALUE;
 
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
-    public static final String ERR_MSG = "errMsg";
+    public static final String ERR_MSG = "err";
     public static final String ERR_PAGE = "/errors/error";
     public static final String ACCOUNTS_PAGE = "/accounts/accountsList";
     public static final String EDIT_ACCOUNT = "/accounts/edit_account";
@@ -93,9 +96,9 @@ public class AccountController {
         }
         try {
             accounts.forEach(usr ->
-                    LOGGER.info(usr.getEmail()==null?"no email":usr.getEmail())
+                    LOGGER.info(usr.getEmail() == null ? "no email" : usr.getEmail())
             );
-            return  modelAndView;
+            return modelAndView;
         } catch (Exception ex) {
             String exMessage = ex.getMessage();
             ModelAndView model = new ModelAndView(ERR_PAGE);
@@ -104,12 +107,45 @@ public class AccountController {
             return modelAndView;
         }
     }
-    @PostMapping(value = "/new")
-    public String showNewAccount(Model model) {
+
+    @PostMapping(value = "/new", produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView showNewAccount(Model model) {
         AccountRequest accountRequest = new AccountRequest();
         model.addAttribute("account", accountRequest);
-            LOGGER.info(toJson(accountRequest));
-        return NEW_ACCOUNT;
+        LOGGER.info(toJson(accountRequest));
+        ModelAndView modelAndView = new ModelAndView(EDIT_ACCOUNT);
+        modelAndView.addObject("account", model.getAttribute("account"));
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/edit", consumes = {APPLICATION_JSON_VALUE}, produces = {TEXT_HTML_VALUE})
+    public ModelAndView saveAccount(@RequestBody AccountRequest accountRequest) {
+        BankResponse bankResponse = accountService.createAccount(accountRequest);
+        try {
+            if (bankResponse.getResponseCode().equals(ACCOUNT_CREATION_SUCCESS)) {
+            } else {
+                if (bankResponse.getResponseCode().equals(ACCOUNT_EXISTS_CODE)) {
+                    this.accountService.save(accountRequest);
+                }
+            }
+
+        } catch (Exception ex) {
+            String exMessage = ex.getMessage();
+            ModelAndView model = new ModelAndView(ERR_PAGE);
+            model.addObject(ERR_MSG, exMessage);
+            LOGGER.error(exMessage);
+            model.addObject("account", accountRequest);
+            return model;
+        }
+        ModelAndView modelAndView = new ModelAndView(EDIT_ACCOUNT);
+        modelAndView.addObject("account", accountRequest);
+        return modelAndView;
+}
+
+    @DeleteMapping(value = "/delete/{id}", consumes = {APPLICATION_JSON_VALUE}, produces = {APPLICATION_JSON_VALUE})
+    public String deleteTask(@ModelAttribute("account") Account account) {
+        this.accountService.delete(account);
+        return REDIRECT + ACCOUNTS_PAGE;
     }
 
 

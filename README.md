@@ -48,11 +48,11 @@ First response :
 }
 Create at first second account 
        POST: 127.0.0.1:8082/api/accounts/create
-{"firstName":"Sofiia", "lastName":"Nastasiuk", "otherName":"","gender":"female",
-"address":"9 Singleton Close, Preston, Fulwood", "stateOfOrigin":"",
+{"firstName":"Sofiia", "lastName":"Nastasiuk", "otherName":"","gender":"FEMALE",
+"address":"9 Singleton Close, Preston, Fulwood", "stateOfOrigin":"ACTIVE",
 "accountNumber":"09905025","accountBalance":"0.0","email":"sofiiaNastasiuk@hotmail.com",
 "phoneNumber":"+573246858282", "sortCode":"17-60-49", "bankName":"Bank2",
-"alternativePhoneNumber":"","status":""
+"alternativePhoneNumber":"","status":"ACTIVE"
 }
 Response:
 {
