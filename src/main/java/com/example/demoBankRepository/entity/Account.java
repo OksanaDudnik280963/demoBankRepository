@@ -46,14 +46,15 @@ public class Account {
     @Column(name = "EMAIL")
     private String email;
 
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,17}$", message = "Phone number")
-    @Size(max = 17)
+    @Pattern(regexp = "^\\+?[0-9]{13,17}$", message = "Phone number")
+    @Size(max = 17)//+447492555481
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
-    @Pattern(regexp = "^\\+?[0-9. ()-]{7,17}$", message = "Phone number")
+    @Pattern(regexp = "^\\+?[0-9]{0,17}$", message = "Alternative Phone number")
     @Size(max = 17)
     @Column(name = "ALTERNATIVE_PHONE_NUMBER")
     private String alternativePhoneNumber;
+
     @Column(name = "STATUS")
     @Enumerated(EnumType.ORDINAL)
     private StatusName status;

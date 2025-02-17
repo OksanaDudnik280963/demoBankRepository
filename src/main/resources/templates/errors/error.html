@@ -9,13 +9,13 @@
 
 <body class="container">
 
-<div th:include="fragments/errorMessage :: errorMessage(err)">
+<div th:include="fragments/errorMessage :: errorMessage(err='Error')">
     <h1 th:id="err" th:object="${err}"></h1>
     <!--<a th:id="errMsg" th:title="${errMsg}"></a>-->
 </div>
 
 <br/><br/>
-<div lang="en" th:replace="fragments/footer.html::footer()"></div>
+<div lang="en" th:replace="fragments/footer.html::footer"></div>
 
 </body>
 </html>

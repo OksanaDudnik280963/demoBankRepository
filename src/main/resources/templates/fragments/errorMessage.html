@@ -1,13 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <div th:fragment="errorMessage">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta content="ie=edge" http-equiv="x-ua-compatible" />
 
-    <!--<title th:text="${err} ? ${err} : 'Error received'"></title>-->
+   <!-- <title th:text="${err} ? ${err} : 'Error received'"></title>-->
     <p th:text="${err} ? ${err} : 'Error received'"></p>
-    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" type="text/css"/>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
     <link rel="stylesheet" th:href="@{../../public/css/style.css}"/>
+<!--
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+-->
 
 </div>
+</html>

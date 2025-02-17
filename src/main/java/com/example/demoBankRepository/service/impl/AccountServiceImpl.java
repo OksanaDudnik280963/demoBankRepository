@@ -211,7 +211,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private Account getAccountFromAccountRequest(AccountRequest accountRequest) {
-        Account realAccount = getAccount(accountRequest.getAccountNumber());
+        Account realAccount = getAccount(accountRequest.getSortCode(), accountRequest.getAccountNumber());
         if (realAccount != null && realAccount.getId()!=null) {
 
             realAccount.setAccountBalance(accountRequest.getAccountBalance());
