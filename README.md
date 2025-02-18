@@ -120,3 +120,6 @@ Then response will be:
 }
 ]
 ###==============================================================================
+For the github:
+login: oksana.dudnik@outlook.com
+psw: Libra28091963!

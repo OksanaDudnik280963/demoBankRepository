@@ -26,7 +26,7 @@ import java.util.List;
 @Data
 @Table(name="accounts")
 public class Account {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   id;
 
@@ -37,16 +37,18 @@ public class Account {
     @Column(name = "LAST_NAME")
     private String lastName;
     @Column(name = "OTHER_NAME")
+
     private String otherName;
     @Column(name = "GENDER")
     @Enumerated(EnumType.ORDINAL)
     private Gender gender;
+
     @Column(name = "ADDRESS")
     private String address;
     @Column(name = "EMAIL")
     private String email;
 
-    @Pattern(regexp = "^\\+?[0-9]{13,17}$", message = "Phone number")
+    @Pattern(regexp = "^\\+?[0-9]{0,17}$", message = "Phone number")
     @Size(max = 17)//+447492555481
     @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
@@ -70,6 +72,7 @@ public class Account {
     @Column(name = "ACCOUNT_NUMBER")
     @Pattern(regexp = "^[0-9]{8}$", message = "Sort code")
     private String accountNumber;
+
     @NotBlank(message = "Bank name is mandatory")
     @Column(name = "BANK_NAME")
     private String bankName;
@@ -88,12 +91,4 @@ public class Account {
     @UpdateTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime modifyAt;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }
