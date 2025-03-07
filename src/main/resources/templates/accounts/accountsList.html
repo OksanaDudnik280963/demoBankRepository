@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head lang="en" th:include="fragments/header :: header(metaTitle='Accounts List')">
-    <title th:id="${metaTitle} ? ${metaTitle} : 'Accounts List'"></title>
+    <title th:id="${metaTitle} ? ${metaTitle} : 'Accounts'"></title>
 </head>
 
 <body>
@@ -10,7 +10,7 @@
 
     <a href="/api/accounts/new/">Create New Account</a>
     <br/><br/>
-    <form th:action="@{/api/accounts/list}" th:object="${accounts}" method="get">
+    <!--<form th:action="@{/api/accounts/list}" th:object="${accounts}" method="get">-->
     <table class="table table-striped">
         <caption>Accounts List</caption>
         <thead class="table-header">
@@ -41,27 +41,27 @@
             <td th:text="${account.firstName}">Account First Name</td>
             <td th:text="${account.lastName}">Account Last Name</td>
             <td th:text="${account.otherName}">Account Other Name</td>
-            <td th:text="${account.gender.name()}">Gender</td>
+            <td th:text="${account.gender!=null ? account.gender.name():''}">Gender</td>
             <td th:text="${account.address}">Address</td>
             <td th:text="${account.email}">Email</td>
             <td th:text="${account.phoneNumber}">Phone Number</td>
             <td th:text="${account.alternativePhoneNumber}">Alternative Phone Number</td>
-            <td th:text="${account.status.name()}">Status</td>
-            <td th:text="${account.stateOfOrigin.name()}">Status Of Origin</td>
+            <td th:text="${account.status!=null ? account.status.name():''}">Status</td>
+            <td th:text="${account.stateOfOrigin!=null ? account.stateOfOrigin.name():''}">Status Of Origin</td>
             <td th:text="${account.sortCode}">Sort Code</td>
             <td th:text="${account.accountNumber}">Account Number</td>
             <td th:text="${account.bankName}">Bank Name</td>
-            <td th:text="${account.accountBalance}">Account Balance</td>
+            <td th:text="${account.accountBalance.toString()}">Account Balance</td>
 
             <td>
-                <a th:href="@{'/api/accounts/edit/'+${account}}">Edit</a>
+                <a th:href="@{'/api/accounts/edit/'+${account.id}}">Edit</a>
                 <a th:href="@{'/api/accounts/delete/'+${account.id}}">Delete</a>
             </td>
 
         </tr>
         </tbody>
     </table>
-    </form>
+    <!--</form>-->
     <br/><br/>
 
     <!--<nav aria-label="Page navigation"  class="navbar navbar-expand-lg navbar-light bg-light">
@@ -88,9 +88,10 @@
     <!--</form>-->
     <div th:if="${accountPage.totalPages > 0}" class="pagination"
          th:each="pageNumber : ${pageNumbers}">
-        <a th:href="@{/api/acconts/list/?size=${accountPage.size}&page=${pageNumber}}"
+
+        <a th:href="@{'/api/accounts/list/?page='+${pageNumber}+'&size='+${pageSize}}"
            th:text="${pageNumber}"
-           th:class="${pageNumber==accountPage.number + 1} ? active"></a>
+           th:class="(${pageNumber==accountPage.number + 1} ? 'active':'')"></a>
     </div>
 <br/><br/>
 </div>

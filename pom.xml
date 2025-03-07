@@ -8,6 +8,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.2</version>
+        <!--2.6.2-->
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -33,14 +34,14 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <bootstrap.version>4.5.0</bootstrap.version>
+        <bootstrap.version>4.2.1</bootstrap.version>
     </properties>
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
             <version>0.40</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
@@ -70,13 +71,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
         <!--
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
@@ -146,6 +147,15 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>

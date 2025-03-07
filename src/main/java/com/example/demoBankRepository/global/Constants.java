@@ -6,7 +6,7 @@ public class Constants {
 
     public static final String ACCOUNT_EXISTS_CODE = "001";
     public static final String ACCOUNT_EXISTS_MESSAGE = "Account already exists";
-    public static final String ACCOUNT_CREATION_SUCCESS = "002";
+    public static final String ACCOUNT_CREATION_SUCCESS_CODE = "002";
     public static final String ACCOUNT_CREATION_MESSAGE = "Account created successfully!";
 
     public static final String USER = "root";

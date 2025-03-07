@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountService {
     BankResponse createAccount(AccountRequest accountRequest);
@@ -19,5 +20,8 @@ public interface AccountService {
     Page<Account> findAll(Pageable pageable);
     Page<Account> findPaginated(Pageable pageable);
     Account save(AccountRequest account);
+    Account save(Account account) throws Exception;
     void delete(Account account);
+    Optional<Account> getAccountById(Long id);
+    Account getAccountFromAccountRequest(AccountRequest accountRequest);
 }

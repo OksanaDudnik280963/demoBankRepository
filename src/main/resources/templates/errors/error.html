@@ -3,15 +3,15 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="ru">
 <head lang="en" th:include="fragments/header :: header(metaTitle='Error page')">
-    <title th:id="metaTitle">Error page</title>
+    <title th:id="metaTitle" th:text="metaTitle?metaTitle:'Error'">Error page</title>
 </head>
 
 
 <body class="container">
 
-<div th:include="fragments/errorMessage :: errorMessage(err='Error')">
-    <h1 th:id="err" th:object="${err}"></h1>
-    <!--<a th:id="errMsg" th:title="${errMsg}"></a>-->
+<div th:include="fragments/errorMessage :: errorMessage(err=${err})" th:object="${err}">
+    <h1>Errors:</h1>
+    <a th:text="${err}"></a>
 </div>
 
 <br/><br/>

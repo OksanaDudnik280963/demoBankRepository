@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="errorMessage">
+<div th:fragment="errorMessage(err)">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta content="ie=edge" http-equiv="x-ua-compatible" />
@@ -13,7 +13,7 @@
     <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 
-    <link rel="stylesheet" th:href="@{../../public/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{../../static/css/style.css}"/>
 <!--
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>

@@ -5,36 +5,17 @@ body {
     font-size: 3vh;
     margin-left: 30px;
     padding-left: 20px;
-    width: 50%;
 }
 
 h1{
-    color: whitesmoke;
-    background: #0dcaf0;
+    font-color: whitesmoke;
     font-size: 4vh;
     margin-left: 20px;
     margin-top: 30px;
 }
-.fieldError {
-    border: 1px solid #a94442;
-}
-
-.errors {
-    padding: 1em;
-    margin: 1em 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-left-color: #a94442;
-    border-radius: 5px;
-}
-
-.errors li {
-    list-style-type: none;
-    margin: 0.5em 0.7em;
-}
 
 form{
-    background: darkgoldenrod;
+    background: bisque;
     margin: 30px;
     padding: 20px;
 }
@@ -44,20 +25,15 @@ input{
 }
 
 a{
-    color: yellowgreen;
-    background: #0dcaf0;
+    color: dimgrey;
 }
 
 a:visited{
     color: whitesmoke;
-    background: #0dcaf0;
-    font-size: 4vh;
-    margin-left: 20px;
-    margin-top: 30px;
 }
 .button{
-                                                                                                                                                                                                                                                                            font-size: 4vh;
-    color: green;
+    font-size: 4vh;
+    color: whitesmoke;
     background-color: darkcyan;
     padding: 10px;
     border-radius: 5px;

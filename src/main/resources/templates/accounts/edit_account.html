@@ -8,13 +8,13 @@
     <link th:rel="stylesheet" th:href="@{assets/password-strength-meter/password.min.css}"/>
     <script th:src="@{assets/password-strength-meter/password.min.js}"></script>
 -->
-    <title th:id="metaTitle">Edit Account</title>
+    <title th:id="metaTitle" th:text="${metaTitle}"></title>
     <meta charset="UTF-8">
 
 </head>
 <body>
 <div align="center">
-    <h1 align="center">Create New User</h1>
+    <h1 align="center">Edit account</h1>
     <br/><br/>
     <form action="#" th:action="@{'/api/accounts/edit/'}" th:object="${account}" method="post">
         <table border="1" cellpadding="10">
@@ -22,7 +22,7 @@
                 <td>
                     <label th:text="${'First Name'}" th:field="${account.firstName}"></label>
                 </td>
-                <td><input type="text" th:field="${account.firstName}"></td>
+                <td><input type="text" th:field="${account.firstName}" th:text="${account.firstName}"></td>
                 <td>
                     <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}"></p>
                 </td>
@@ -92,7 +92,10 @@
                     <label th:text="${'Address'}" th:field="${account.address}"></label>
                 </td>
 
-                <td><input type="text" th:field="${account.address}"></td>
+                <td><label>
+                    <input type="text" th:field="${account.address}"></input>
+                </label>
+                </td>
                 <td>
                     <p th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}"></p>
                 </td>
@@ -155,7 +158,7 @@
                     <input type="text" th:value="${account.bankName}"  th:field="${account.bankName}" class="form-control">
                 </td>
                 <td>
-                    <p th:if="${#fields.hasErrors('bankName')}" th:errorclass="error" th:errors="*{bankName}"/>
+                    <p th:if="${#fields.hasErrors('bankName')}" th:errorclass="error" th:errors="*{bankName}"></p>
                 </td>
             </tr>
 
@@ -164,7 +167,7 @@
                     <label th:text="${'Account Balance'}" th:field="${account.accountBalance}"></label>
                 </td>
                 <td>
-                    <input type="text" th:value="${account.accountBalance.toString()}"  th:field="${account.accountBalance}" class="form-control">
+                    <input type="number" th:value="${account.accountBalance}"  th:field="${account.accountBalance}" class="form-control">
                 </td>
                 <td>
                     <p th:if="${#fields.hasErrors('accountBalance')}" th:errorclass="error" th:errors="*{accountBalance}"></p>

@@ -6,9 +6,9 @@ Please on the postman input JSON as Request Bode
 ### for create account:
     {"firstName":"Oksana", "lastName":"Dudnik", "otherName":"","gender":"FEMALE",
      "address":"9 Singleton Close, Preston, Fulwood", "stateOfOrigin":"ACTIVE",
- ","accountBalance":"0.0","email":"asyadudnik@hotmail.com","phoneNumber":"07492555481", "sortCode":"12-13-14", "bankName":"Bank1",
-    "alternativePhoneNumber":"","status":""
-    }
+"accountBalance":"100.0","email":"asyadudnik@hotmail.com","phoneNumber":"07492555481", "sortCode":"12-13-14", "bankName":"Bank1",
+"alternativePhoneNumber":"","status":"ACTIVE"
+}
 #### Response from Postman:
 {
 "responseCode": "002",

@@ -4,10 +4,10 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head lang="en" th:include="fragments/header :: header(metaTitle='Create New User')">
-<!--  no security
-    <link th:rel="stylesheet" th:href="@{assets/password-strength-meter/password.min.css}"/>
-    <script th:src="@{assets/password-strength-meter/password.min.js}"></script>
--->
+    <!--  no security
+        <link th:rel="stylesheet" th:href="@{assets/password-strength-meter/password.min.css}"/>
+        <script th:src="@{assets/password-strength-meter/password.min.js}"></script>
+    -->
     <title th:id="metaTitle">Create New User</title>
     <meta charset="UTF-8">
 
@@ -16,163 +16,161 @@
 <div align="center">
     <h1 align="center">Create New User</h1>
     <br/><br/>
-    <form action="#" th:action="@{'/api/accounts/new/'}" th:object="${account}" method="post">
+    <form action="#" th:action="@{'/api/accounts/new/'}" th:object="${account}" th:method="post">
         <table border="1" cellpadding="10">
             <tr>
                 <td>
-                    <label th:text="${'First Name'}" th:field="${account.firstName}"></label>
+                    <label th:for="${#ids.next('firstName')}" th:text="${'First Name'}" th:field="${account.firstName}"></label>
                 </td>
-                <td><input type="text" th:field="${account.firstName}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}"></p>
+                    <input th:id="firstName" th:type="text" th:field="*{firstName}" th:value="*{firstName}"/>
+                </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}">First Name Error</p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label th:text="${'Last Name'}" th:field="${account.lastName}"></label>
+                    <label th:for="lastName" th:text="${'Last Name'}" th:field="${account.lastName}"></label>
                 </td>
-                <td><input type="text" th:field="${account.lastName}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}"></p>
+                    <input type="text" th:field="*{lastName}" th:text="*{lastName}"/>
+                </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}">Last Name Error</p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label th:text="${'Other Name'}" th:field="${account.otherName}"></label>
+                    <label th:for="*{otherName}" th:text="${'Other Name'}" th:field="${account.otherName}"></label>
                 </td>
-                <td><input type="text" th:field="${account.otherName}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('otherName')}" th:errorclass="error" th:errors="*{otherName}"></p>
+                    <input type="text" th:field="*{otherName}" th:text="*{otherName}"/>
                 </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('otherName')}" th:errorclass="error" th:errors="*{otherName}">
+                        Other Name Error</p></td>
             </tr>
             <tr><!--private String email;-->
                 <td>
-                    <label th:text="${'Email'}" th:field="${account.email}"></label>
+                    <label th:for="*{email}" th:text="${'Email'}" th:field="*{email}"></label>
                 </td>
-                <td><input type="text" th:field="${account.email}"></td>
                 <td>
-                    <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"></p>
+                    <input type="text" th:field="*{email}" th:text="*{email}"/>
                 </td>
+                <td th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}">Email Error</td>
             </tr>
             <tr>
                 <td>
-                    <label th:text="${'Gender'}" th:field="${account.gender}"></label>
+                    <label th:for="*{gender}" th:text="${'Gender'}" th:field="*{gender}"></label>
                 </td>
                 <td>
-                    <select name="Gender" th:field="${account.gender}">
+                    <select name="Gender" th:field="*{gender}">
                         <option th:each="gender : ${T(com.example.demoBankRepository.entity.enums.Gender).values()}"
                                 th:value="${gender}"
                                 th:text="${gender.name}"/>
                     </select>
                 </td>
-                <td>
-                    <p th:if="${#fields.hasErrors('gender')}" th:errorclass="error" th:errors="*{gender}"></p>
-                </td>
+                <td th:if="${#fields.hasErrors('gender')}" th:errorclass="error" th:errors="*{gender}">Gender Error</td>
             </tr>
             <tr><!--private String phoneNumber;-->
                 <td>
-                    <label th:text="${'Phone Number'}" th:field="${account.phoneNumber}"></label>
+                    <label th:for="*{phoneNumber}" th:text="${'Phone Number'}" th:field="${account.phoneNumber}"></label>
                 </td>
-                <td><input type="text" th:field="${account.phoneNumber}"></td>
-                <td>
-                    <p th:if="${#fields.hasErrors('phoneNumber')}" th:errorclass="error" th:errors="*{phoneNumber}"></p>
-                </td>
+                <td><input type="text" th:field="${account.phoneNumber}"/></td>
+                <td th:if="${#fields.hasErrors('phoneNumber')}" th:errorclass="error" th:errors="*{phoneNumber}">PhoneNumber Error</td>
             </tr>
             <tr><!--private String alternativePhoneNumber;-->
                 <td>
-                    <label th:text="${'Alternative Phone Number'}" th:field="${account.alternativePhoneNumber}"></label>
+                    <label th:for="*{alternativePhoneNumber}" th:text="${'Alternative Phone Number'}" th:field="${account.alternativePhoneNumber}"></label>
                 </td>
-                <td><input type="text" th:field="${account.alternativePhoneNumber}"></td>
-                <td>
-                    <p th:if="${#fields.hasErrors('alternativePhoneNumber')}" th:errorclass="error" th:errors="*{alternativePhoneNumber}"></p>
-                </td>
+                <td><input type="text" th:field="*{alternativePhoneNumber}"/></td>
+                <td th:if="${#fields.hasErrors('alternativePhoneNumber')}" th:errorclass="error"
+                    th:errors="*{alternativePhoneNumber}">AlternativePhoneNumber Error</td>
             </tr>
             <tr><!--private String address;-->
                 <td>
-                    <label th:text="${'Address'}" th:field="${account.address}"></label>
+                    <label th:for="*{address}" th:text="${'Address'}" th:field="${account.address}"></label>
                 </td>
-                <td>
-                <td><input type="text" th:field="${account.address}"></td>
-                <td>
-                    <p th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}"></p>
-                </td>
+                <td><input type="text" th:field="*{address}"/></td>
+                <td th:if="${#fields.hasErrors('address')}" th:errorclass="error" th:errors="*{address}">Address Error</td>
             </tr>
             <tr><!--private String status;-->
                 <td>
-                    <label th:text="${'Status'}" th:field="${account.status}"></label>
+                    <label th:for="*{status}" th:text="${'Status'}" th:field="${account.status}"></label>
                 </td>
                 <td>
-                    <select name="Status" th:field="${account.status}">
+                    <select name="Status" th:field="*{status}">
                         <option th:each="stat : ${T(com.example.demoBankRepository.entity.enums.StatusName).values()}"
                                 th:value="${stat}"
                                 th:text="${stat.name}"/>
                     </select>
                 </td>
-                <td>
-                    <p th:if="${#fields.hasErrors('status')}" th:errorclass="error" th:errors="*{status}"></p>
-                </td>
+                <td th:if="${#fields.hasErrors('status')}" th:errorclass="error" th:errors="*{status}">Status Error</td>
             </tr>
             <tr><!--private String stateOfOrigin;-->
                 <td>
-                    <label th:text="${'State Of Origin'}" th:field="${account.stateOfOrigin}"></label>
+                    <label th:for="status" th:text="${'State Of Origin'}" th:field="${account.stateOfOrigin}"></label>
                 </td>
                 <td>
-                    <select name="Status" th:field="${account.stateOfOrigin}">
+                    <select id="status" name="Status" th:field="${account.stateOfOrigin}">
                         <option th:each="stat : ${T(com.example.demoBankRepository.entity.enums.StatusName).values()}"
                                 th:value="${stat}"
                                 th:text="${stat.name}"/>
                     </select>
                 </td>
-
-                <td>
-                    <p th:if="${#fields.hasErrors('stateOfOrigin')}" th:errorclass="error" th:errors="*{stateOfOrigin}"></p>
+                <td th:if="${#fields.hasErrors('stateOfOrigin')}" th:errorclass="error" th:errors="*{stateOfOrigin}">
+                    StateOfOrigin Error
                 </td>
             </tr>
             <tr><!--private String sortCode;"12-13-14"-->
                 <td>
-                    <label th:text="${'Sort Code'}" th:field="${account.sortCode}"></label>
+                    <label th:for="*{sortCode}" th:text="${'Sort Code'}" th:field="${account.sortCode}"></label>
                 </td>
-                <td><input type="text" th:field="${account.sortCode}"></td>
-                <td>
-                    <p th:if="${#fields.hasErrors('sortCode')}" th:errorclass="error" th:errors="*{sortCode}"></p>
+                <td><input type="text" th:field="*{sortCode}"/></td>
+                <td th:if="${#fields.hasErrors('sortCode')}" th:errorclass="error" th:errors="*{sortCode}">SortCode
+                    Error
                 </td>
             </tr>
             <tr><!--private String accountNumber;;"12131478"-->
                 <td>
-                    <label th:text="${'Account Number'}" th:field="${account.accountNumber}"></label>
+                    <label th:for="*{accountNumber}" th:text="${'Account Number'}" th:field="${account.accountNumber}"></label>
                 </td>
-                <td><input type="text" th:field="${account.accountNumber}"></td>
-                <td>
-                    <p th:if="${#fields.hasErrors('accountNumber')}" th:errorclass="error" th:errors="*{accountNumber}"></p>
+                <td><input type="text" th:field="*{accountNumber}"/></td>
+                <td th:if="${#fields.hasErrors('accountNumber')}" th:errorclass="error" th:errors="*{accountNumber}">
+                    AccountNumber Error
                 </td>
             </tr>
 
             <tr><!--private String bankName;-->
                 <td>
-                    <label th:text="${'Bank Name'}" th:field="${account.bankName}"></label>
+                    <label th:for="*{bankName}" th:text="${'Bank Name'}" th:field="${account.bankName}"></label>
                 </td>
                 <td>
-                    <input type="text" th:value="${account.bankName}"  th:field="${account.bankName}" class="form-control">
+                    <input type="text" th:value="${account.bankName}" th:field="${account.bankName}"/>
                 </td>
-                <td>
-                    <p th:if="${#fields.hasErrors('bankName')}" th:errorclass="error" th:errors="*{bankName}"></p>
+                <td th:if="${#fields.hasErrors('bankName')}" th:errorclass="error" th:errors="*{bankName}">BankName
+                    Error
                 </td>
             </tr>
 
             <tr><!--private BigDecimal accountBalance;-->
                 <td>
-                    <label th:text="${'Account Balance'}" th:field="${account.accountBalance}"></label>
+                    <label th:for="*{accountBalance}" th:text="${'Account Balance'}" th:field="${account.accountBalance}"></label>
                 </td>
                 <td>
-                    <input type="number" th:value="${account.accountBalance}"  th:field="${account.accountBalance}" class="form-control">
+                    <input type="text" th:value="${#numbers.formatDecimal(account.accountBalance,  1, 'DEFAULT', 2, 'DEFAULT')}" th:field="${account.accountBalance}"
+                           class="form-control"/>
                 </td>
-                <td>
-                    <p th:if="${#fields.hasErrors('accountBalance')}" th:errorclass="error" th:errors="*{accountBalance}"></p>
+                <td th:if="${#fields.hasErrors('accountBalance')}" th:errorclass="error" th:errors="*{accountBalance}">
+                    AccountBalance Error
                 </td>
             </tr>
             <tr>
-                <td colspan="3">
-                    <button type="submit" name="action">Save</button>
+                <td>
+                    <button th:type="submit">Submit</button>
+                </td>
+                <td th:if="${#fields.hasGlobalErrors()}" th:errorclass="error" th:text="${#fields.errors()}">
                 </td>
             </tr>
         </table>

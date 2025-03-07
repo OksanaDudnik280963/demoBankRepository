@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
                     .responseCode(ACCOUNT_EXISTS_CODE)
                     .responseMessage(ACCOUNT_EXISTS_MESSAGE)
                     .accountInfo(AccountInfo.builder()
-                            .accountBalance(accountRequest.getAccountBalance())
+                            .accountBalance(new BigDecimal(accountRequest.getAccountBalance().toString()))
                             .accountNumber(accountRequest.getAccountNumber())
                             .accountName(accountRequest.getFirstName() + " " + accountRequest.getLastName() + " " + accountRequest.getOtherName())
                             .bankName(accountRequest.getBankName())
@@ -53,21 +53,22 @@ public class AccountServiceImpl implements AccountService {
                     .firstName(accountRequest.getFirstName())
                     .lastName(accountRequest.getLastName())
                     .otherName(accountRequest.getOtherName())
-                    .gender(Gender.FEMALE)
+                    .gender(accountRequest.getGender())
                     .address(accountRequest.getAddress())
-                    .stateOfOrigin(StatusName.ACTIVE)
+                    .stateOfOrigin(accountRequest.getStateOfOrigin())
                     .accountNumber(codeGenerator.generateAccountNumber())
-                    .accountBalance(BigDecimal.ZERO)
+                    .accountBalance(new BigDecimal(accountRequest.getAccountBalance().toString()))
                     .email(accountRequest.getEmail())
                     .phoneNumber(accountRequest.getPhoneNumber())
                     .sortCode(codeGenerator.generateSortCode())
                     .bankName(accountRequest.getBankName())
-                    .transactions(new ArrayList<Transaction>())
-                    .status(StatusName.ACTIVE)
+                    .transactions(new ArrayList<Transaction>())/// ////
+                    .status(accountRequest.getStatus())
+                    .alternativePhoneNumber(accountRequest.getAlternativePhoneNumber())
                     .build();
             Account savedAccount = accountRepository.save(newAccount);
             return BankResponse.builder()
-                    .responseCode(ACCOUNT_CREATION_SUCCESS)
+                    .responseCode(ACCOUNT_CREATION_SUCCESS_CODE)
                     .responseMessage(ACCOUNT_CREATION_MESSAGE)
                     .accountInfo(AccountInfo.builder()
                             .accountBalance(savedAccount.getAccountBalance())
@@ -116,7 +117,9 @@ public class AccountServiceImpl implements AccountService {
             return accountRepository.save(newAccount);
         }
     }
-
+    public Optional<Account> getAccountById(Long id){
+        return this.accountRepository.findById(id);
+    }
     public Account getAccount(String sortCode, String accountNumber) {
         Optional<Account> account = accountRepository
                 .findBySortCodeAndAccountNumber(sortCode, accountNumber);
@@ -167,6 +170,59 @@ public class AccountServiceImpl implements AccountService {
 
         return new PageImpl<Account>(list, PageRequest.of(currentPage, pageSize), accounts.size());
     }
+    public Account save(Account account) throws Exception {
+        if (account != null && account.getId() != null) {
+            Account realAccount = this.accountRepository.findByAccountNumber(account.getAccountNumber()).get();
+            realAccount.setAccountBalance(account.getAccountBalance());
+            realAccount.setBankName(account.getBankName());
+            realAccount.setFirstName(account.getFirstName());
+            realAccount.setLastName(account.getLastName());
+            realAccount.setAccountNumber(account.getAccountNumber());
+            realAccount.setAddress(account.getAddress());
+            realAccount.setAlternativePhoneNumber(account.getAlternativePhoneNumber());
+            realAccount.setPhoneNumber(account.getPhoneNumber());
+            realAccount.setEmail(account.getEmail());
+            realAccount.setGender(account.getGender());
+            realAccount.setSortCode(account.getSortCode());
+            realAccount.setOtherName(account.getOtherName());
+            realAccount.setStateOfOrigin(account.getStateOfOrigin());
+            realAccount.setStatus(account.getStatus());
+            return this.accountRepository.save(realAccount);
+        }else{
+            assert account != null;
+            AccountRequest accountRequest = AccountRequest.builder()
+                    .firstName(account.getFirstName())
+                    .lastName(account.getLastName())
+                    .otherName(account.getOtherName())
+                    .gender(account.getGender())
+                    .address(account.getAddress())
+                    .stateOfOrigin(StatusName.ACTIVE)
+                    .accountNumber(account.getAccountNumber())
+                    .accountBalance(new BigDecimal(account.getAccountBalance().toString()))
+                    .email(account.getEmail())
+                    .phoneNumber(account.getPhoneNumber())
+                    .sortCode(account.getSortCode())
+                    .bankName(account.getBankName())
+                    .status(StatusName.ACTIVE)
+                    .build();
+            BankResponse bankResponse = createAccount(accountRequest);
+
+            Account saved = getAccount(bankResponse.getAccountInfo().getAccountNumber());
+            if (bankResponse.getResponseCode().equals(ACCOUNT_CREATION_SUCCESS_CODE)) {
+                return saved;
+            }else{
+
+               if(bankResponse.getResponseCode().equals(ACCOUNT_EXISTS_CODE)){
+                   Account modified = getAccountFromAccountRequest(accountRequest);
+                   return this.accountRepository.save(modified);
+               }else {
+                    throw new Exception(bankResponse.getResponseMessage());
+               }
+            }
+
+        }
+
+    }
 
     public Account save(AccountRequest account) {
         Account realAccount = getAccount(account.getAccountNumber());
@@ -189,13 +245,13 @@ public class AccountServiceImpl implements AccountService {
             return accountRepository.save(realAccount);
         } else {
             BankResponse bankResponse = createAccount(account);
-            if (bankResponse.getResponseCode().equals(ACCOUNT_CREATION_SUCCESS)) {
+            if (bankResponse.getResponseCode().equals(ACCOUNT_CREATION_SUCCESS_CODE)) {
                 return getAccount(bankResponse.getAccountInfo().getAccountNumber());
             }
 
             if (bankResponse.getResponseCode().equals(ACCOUNT_EXISTS_CODE)
             ) {
-                 Account real = getAccountFromAccountRequest(account);
+                Account real = getAccountFromAccountRequest(account);
                 return accountRepository.save(real);
             } else {
                 return null;
@@ -210,9 +266,9 @@ public class AccountServiceImpl implements AccountService {
         return;
     }
 
-    private Account getAccountFromAccountRequest(AccountRequest accountRequest) {
+    public Account getAccountFromAccountRequest(AccountRequest accountRequest) {
         Account realAccount = getAccount(accountRequest.getSortCode(), accountRequest.getAccountNumber());
-        if (realAccount != null && realAccount.getId()!=null) {
+        if (realAccount != null && realAccount.getId() != null) {
 
             realAccount.setAccountBalance(accountRequest.getAccountBalance());
             realAccount.setBankName(accountRequest.getBankName());
