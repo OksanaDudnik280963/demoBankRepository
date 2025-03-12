@@ -31,15 +31,19 @@ import java.time.LocalDateTime;
 public class Transaction {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "SOURCE_ACCOUNT_SORT_CODE")
     private String sourceAccountSortCode;
+
     @Column(name = "SOURCE_ACCOUNT_NUMBER")
     private String sourceAccountNumber;
+
     @Column(name = "TARGET_ACCOUNT_SORT_CODE")
     private String targetAccountSortCode;
+
     @Column(name = "TARGET_ACCOUNT_NUMBER")
     private String targetAccountNumber;
 
@@ -52,10 +56,13 @@ public class Transaction {
     @Min(value = 1, message = "Amount must be larger than 1")
     @Column(name = "AMOUNT")
     private BigDecimal amount;
+
     @Column(name = "REFERENCE")
     private String reference;
+
     @Column(name = "CATEGORY")
     private String category;
+
     @Column(name = "TYPE")
     @Enumerated(EnumType.ORDINAL)
     private TransactionType type;// card, direct deposit, internet

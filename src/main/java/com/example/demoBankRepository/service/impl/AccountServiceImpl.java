@@ -196,14 +196,15 @@ public class AccountServiceImpl implements AccountService {
                     .otherName(account.getOtherName())
                     .gender(account.getGender())
                     .address(account.getAddress())
-                    .stateOfOrigin(StatusName.ACTIVE)
                     .accountNumber(account.getAccountNumber())
                     .accountBalance(new BigDecimal(account.getAccountBalance().toString()))
                     .email(account.getEmail())
                     .phoneNumber(account.getPhoneNumber())
+                    .alternativePhoneNumber(account.getAlternativePhoneNumber())
                     .sortCode(account.getSortCode())
                     .bankName(account.getBankName())
-                    .status(StatusName.ACTIVE)
+                    .status(account.getStatus())
+                    .stateOfOrigin(account.getStateOfOrigin())
                     .build();
             BankResponse bankResponse = createAccount(accountRequest);
 
