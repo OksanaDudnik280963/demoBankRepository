@@ -124,7 +124,7 @@ public class AccountServiceImpl implements AccountService {
                         .accountBalance(BigDecimal.ZERO)
                         .sortCode(codeGenerator.generateSortCode())
                         .bankName("BANK1")
-                        .transactions(new ArrayList<Transaction>())
+                        .transactions(new ArrayList<>())
                         .status(StatusName.ACTIVE)
                         .build();
                 try {
