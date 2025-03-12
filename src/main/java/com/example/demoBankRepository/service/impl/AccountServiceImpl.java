@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
                     .phoneNumber(accountRequest.getPhoneNumber())
                     .sortCode(codeGenerator.generateSortCode())
                     .bankName(accountRequest.getBankName())
-                    .transactions(new ArrayList<Transaction>())/// ////
+                    .transactions(new ArrayList<>())/// ////
                     .status(accountRequest.getStatus())
                     .alternativePhoneNumber(accountRequest.getAlternativePhoneNumber())
                     .build();
@@ -96,7 +96,7 @@ public class AccountServiceImpl implements AccountService {
 
             Optional<Account> foundedAccount = accountRepository.findByAccountNumber(accountInfo.getAccountNumber());
 
-            return foundedAccount.get();
+            return foundedAccount.orElse(null);
         } else {
             Account newAccount = Account.builder()
                     .firstName(accountRequest.getFirstName())
@@ -172,7 +172,8 @@ public class AccountServiceImpl implements AccountService {
     }
     public Account save(Account account) throws Exception {
         if (account != null && account.getId() != null) {
-            Account realAccount = this.accountRepository.findByAccountNumber(account.getAccountNumber()).get();
+            Account realAccount = this.accountRepository.findByAccountNumber(account.getAccountNumber()).orElse(null);
+            assert realAccount != null;
             realAccount.setAccountBalance(account.getAccountBalance());
             realAccount.setBankName(account.getBankName());
             realAccount.setFirstName(account.getFirstName());

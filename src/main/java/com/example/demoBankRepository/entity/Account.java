@@ -36,7 +36,7 @@ public class Account {
     @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
-    @Column(name = "OTHER_NAME", nullable = true)
+    @Column(name = "OTHER_NAME")
     private String otherName;
 
     @Column(name = "GENDER", nullable = false)
@@ -56,7 +56,7 @@ public class Account {
 
     @Pattern(regexp = "^\\+?[0-9]{0,17}$", message = "Alternative Phone number")
     @Size(max = 17)
-    @Column(name = "ALTERNATIVE_PHONE_NUMBER", nullable = true)
+    @Column(name = "ALTERNATIVE_PHONE_NUMBER")
     private String alternativePhoneNumber;
 
     @Column(name = "STATUS", nullable = false)
