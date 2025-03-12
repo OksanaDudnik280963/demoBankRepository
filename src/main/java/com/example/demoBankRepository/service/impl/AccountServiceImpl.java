@@ -98,23 +98,41 @@ public class AccountServiceImpl implements AccountService {
 
             return foundedAccount.orElse(null);
         } else {
-            Account newAccount = Account.builder()
-                    .firstName(accountRequest.getFirstName())
-                    .lastName(accountRequest.getLastName())
-                    .otherName(accountRequest.getOtherName())
-                    .gender(Gender.FEMALE)
-                    .address(accountRequest.getAddress())
-                    .stateOfOrigin(StatusName.ACTIVE)
-                    .accountNumber(codeGenerator.generateAccountNumber())
-                    .accountBalance(BigDecimal.ZERO)
-                    .email(accountRequest.getEmail())
-                    .phoneNumber(accountRequest.getPhoneNumber())
-                    .sortCode(codeGenerator.generateSortCode())
-                    .bankName("BANK1")
-                    .transactions(new ArrayList<Transaction>())
-                    .status(StatusName.ACTIVE)
-                    .build();
-            return accountRepository.save(newAccount);
+            if(accountRequest!=null) {
+                Account newAccount = Account.builder()
+                        .firstName(accountRequest.getFirstName())
+                        .lastName(accountRequest.getLastName())
+                        .otherName(accountRequest.getOtherName())
+                        .gender(Gender.FEMALE)
+                        .address(accountRequest.getAddress())
+                        .stateOfOrigin(StatusName.ACTIVE)
+                        .accountNumber(codeGenerator.generateAccountNumber())
+                        .accountBalance(BigDecimal.ZERO)
+                        .email(accountRequest.getEmail())
+                        .phoneNumber(accountRequest.getPhoneNumber())
+                        .sortCode(codeGenerator.generateSortCode())
+                        .bankName("BANK1")
+                        .transactions(new ArrayList<Transaction>())
+                        .status(StatusName.ACTIVE)
+                        .build();
+                return accountRepository.save(newAccount);
+            }else{
+                Account newAccount = Account.builder()
+                        .gender(Gender.FEMALE)
+                        .stateOfOrigin(StatusName.ACTIVE)
+                        .accountNumber(codeGenerator.generateAccountNumber())
+                        .accountBalance(BigDecimal.ZERO)
+                        .sortCode(codeGenerator.generateSortCode())
+                        .bankName("BANK1")
+                        .transactions(new ArrayList<Transaction>())
+                        .status(StatusName.ACTIVE)
+                        .build();
+                try {
+                    return accountRepository.save(newAccount);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
     public Optional<Account> getAccountById(Long id){
