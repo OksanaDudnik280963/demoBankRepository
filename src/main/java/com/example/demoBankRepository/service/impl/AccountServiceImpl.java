@@ -112,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
                         .phoneNumber(accountRequest.getPhoneNumber())
                         .sortCode(codeGenerator.generateSortCode())
                         .bankName("BANK1")
-                        .transactions(new ArrayList<Transaction>())
+                        .transactions(new ArrayList<>())
                         .status(StatusName.ACTIVE)
                         .build();
                 return accountRepository.save(newAccount);
@@ -186,7 +186,7 @@ public class AccountServiceImpl implements AccountService {
             list = accounts.subList(startItem, toIndex);
         }
 
-        return new PageImpl<Account>(list, PageRequest.of(currentPage, pageSize), accounts.size());
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), accounts.size());
     }
     public Account save(Account account) throws Exception {
         if (account != null && account.getId() != null) {
@@ -283,7 +283,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void delete(Account account) {
         accountRepository.delete(account);
-        return;
     }
 
     public Account getAccountFromAccountRequest(AccountRequest accountRequest) {
