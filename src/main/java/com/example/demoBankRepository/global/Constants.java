@@ -34,6 +34,9 @@ public class Constants {
     public static final String ACCOUNT_NUMBER_PATTERN_STRING = "[0-9]{8}";
     public static final Pattern ACCOUNT_NUMBER_PATTERN = Pattern.compile("^[0-9]{8}$");
 
+    public static final String EMAIL_PATTERN_STRING="\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b";
+    public static final Pattern EMAIL_PATTERN = Pattern.compile("^\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b$");
+
     public static final String OPERATION_INVALID_TRANSACTION = "007";
     public static final String INVALID_TRANSACTION =
             "Account information is invalid or transaction has been denied for your protection. Please try again.";

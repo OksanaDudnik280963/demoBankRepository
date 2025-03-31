@@ -5,19 +5,23 @@ import com.example.demoBankRepository.dto.BankResponse;
 import com.example.demoBankRepository.dto.TransactionRequest;
 import com.example.demoBankRepository.entity.Transaction;
 import com.example.demoBankRepository.entity.Account;
-import com.example.demoBankRepository.entity.enums.TransactionType;
 import com.example.demoBankRepository.global.ACTION;
 import com.example.demoBankRepository.global.Constants;
 import com.example.demoBankRepository.repository.TransactionRepository;
 import com.example.demoBankRepository.repository.AccountRepository;
 import com.example.demoBankRepository.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.demoBankRepository.global.Constants.*;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -63,7 +67,7 @@ public class TransactionServiceImpl implements TransactionService {
                 updateAccountBalance(targetAccount.get(), transactionInput.getAmount(), ACTION.DEPOSIT);
 
                 return BankResponse.builder()
-                        .responseCode(Constants.OPERATION_COMPLETED_SUCCESS)
+                        .responseCode(OPERATION_COMPLETED_SUCCESS)
                         .responseMessage(Constants.SUCCESS)
                         .accountInfo(AccountInfo.builder()
                                 .accountNumber(sourceAccount.get().getAccountNumber())
@@ -125,4 +129,26 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> findAll() {
         return transactionRepository.findAll();
     }
+
+    public PageImpl<Transaction> findPaginated(Pageable pageable) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Transaction> list;
+        List<Transaction> transactions = findAll();
+        if (transactions.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, transactions.size());
+            list = transactions.subList(startItem, toIndex);
+        }
+
+        return new PageImpl<>(list, PageRequest.of(currentPage, pageSize), transactions.size());
+    }
+
+    @Override
+    public Transaction getByID(Long id) {
+        return this.transactionRepository.getById(id);
+    }
+
 }

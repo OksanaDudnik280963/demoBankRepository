@@ -8,9 +8,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -22,7 +24,14 @@ import java.util.List;
 @Builder
 @Entity
 @Data
-@Table(name = "accounts")
+@Table(name = "accounts", schema="my_bank",uniqueConstraints = {
+        @UniqueConstraint(name = "UniquePhoneNumber", columnNames = {"PHONE_NUMBER"}),
+        @UniqueConstraint(name = "UniqueSortCode", columnNames = {"SORT_CODE"}),
+        @UniqueConstraint(name = "UniqueAccountNumber", columnNames = {"ACCOUNT_NUMBER"})
+        /*@UniqueConstraint(name = "UniqueEmail", columnNames = {"EMAIL"})*/
+}
+)
+
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +52,12 @@ public class Account {
     @Enumerated(EnumType.ORDINAL)
     private Gender gender;
 
+
     @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "EMAIL", unique = true, nullable = false)
+    @Column(name = "EMAIL", nullable = false)
+    /*@Pattern(regexp = "^\\b[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b$", message = "Email is wrong")*/
     private String email;
 
     @Pattern(regexp = "^\\+?[0-9]{0,17}$", message = "Phone number")
@@ -70,9 +81,11 @@ public class Account {
     @NotBlank(message = "Sort code is mandatory")
     @Column(name = "SORT_CODE", unique = true, nullable = false)
     @Pattern(regexp = "^[0-9]{2}-[0-9]{2}-[0-9]{2}$", message = "Sort code")
+    @Size(max = 8)
     private String sortCode;
 
     @NotBlank(message = "Account number is mandatory")
+    @Size(max = 8)
     @Column(name = "ACCOUNT_NUMBER", unique = true, nullable = false)
     @Pattern(regexp = "^[0-9]{8}$", message = "Sort code")
     private String accountNumber;
@@ -86,8 +99,8 @@ public class Account {
     @Column(name = "ACCOUNT_BALANCE", nullable = false)
     private BigDecimal accountBalance;
 
-    //@OneToMany(fetch = FetchType.EAGER, targetEntity = Account.class, cascade = CascadeType.ALL, orphanRemoval = true)
-    private transient List<Transaction> transactions;
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Account.class, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList();
 
     @CreationTimestamp
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)

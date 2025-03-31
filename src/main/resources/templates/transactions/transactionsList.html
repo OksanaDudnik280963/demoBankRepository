@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:include="fragments/header :: header(metaTitle='Transactions List')">
+    <title th:id="${metaTitle} ? ${metaTitle} : 'Transactions'"></title>
+</head>
+
+<body>
+<div class="container mt-5">
+
+
+    <a href="/api/transactions/new/">Create New Transaction</a>
+    <br/><br/>
+    <table class="table table-striped">
+        <caption>Accounts List</caption>
+        <thead class="table-header">
+        <tr>
+            <th>ID</th>
+            <th>Source Account SortCode</th>
+            <th>Source Account Number</th>
+            <th>Target Account SortCode</th>
+            <th>Target Account Number</th>
+            <th>Target Owner Name</th>
+            <th>Amount</th>
+            <th>Reference</th>
+            <th>Category</th>
+            <th>Transaction Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--/*@thymesVar id="transactions" type="List<com.example.demoBankRepository.entity.Transaction>"*/-->
+        <tr th:each="transaction, iStat :  ${transactions}"
+            th:style="${iStat.odd}? 'font-weight: bold;'"
+            th:alt-title="${iStat.even}? 'even' : 'odd'">
+            <td th:text="${transaction.id.toString()}">Transaction ID</td>
+            <td th:text="${transaction.sourceAccountSortCode}">Source Account SortCode</td>
+            <td th:text="${transaction.sourceAccountNumber}">Source Account Number</td>
+            <td th:text="${transaction.targetAccountSortCode}">Target Account SortCode</td>
+            <td th:text="${transaction.targetAccountNumber}">Target Account Number</td>
+            <td th:text="${transaction.targetOwnerName}">Target Owner Name</td>
+            <td th:text="${transaction.amount.toString()}">Amount</td>
+            <td th:text="${transaction.reference}">Reference</td>
+            <td th:text="${transaction.category}">Category</td>
+            <td th:text="${transaction.type}">Transaction Type</td>
+            <td>
+                <a th:href="@{'/api/transactions/edit/'+${transaction.id}}">Edit</a>
+                <a th:href="@{'/api/transactions/delete/'+${transaction.id}}">Delete</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <br/><br/>
+    <div th:if="${transactionsPage.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+
+        <a th:href="@{'/api/transactions/list/?page='+${pageNumber}+'&size='+${pageSize}}"
+           th:text="${pageNumber}"
+           th:class="(${pageNumber==transactionsPage.number + 1} ? 'active':'')"></a>
+    </div>
+<br/><br/>
+</div>
+</body>
+<div lang="en" th:replace="fragments/footer.html::footer"></div>
+
+</html>

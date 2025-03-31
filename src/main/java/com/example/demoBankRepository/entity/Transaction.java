@@ -26,13 +26,11 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 @Entity
-@Table(name = "transactions")
-@SequenceGenerator(name = "transaction_seq", sequenceName = "transaction_sequence", initialValue = 5)
+@Table(name = "transactions", schema="my_bank")
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_seq")
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "SOURCE_ACCOUNT_SORT_CODE")

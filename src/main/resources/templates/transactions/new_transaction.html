@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head lang="en" th:include="fragments/header :: header(metaTitle='Create New Transaction')">
+    <title th:id="metaTitle">Create New Transaction</title>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+<div align="center">
+    <h1 align="center">Create New Transaction</h1>
+    <br/><br/>
+    <!--/*@thymesVar id="transaction" type="com.example.demoBankRepository.entity.Transaction"*/-->
+    <form action="#" th:action="@{'/api/transactions/new/'}" th:object="${transaction}" th:method="post">
+        <table border="1" cellpadding="10">
+            <tr>
+                <td>
+                    <label th:for="${#ids.next('sourceAccountSortCode')}" th:text="${'Source Account SortCode'}" th:field="*{sourceAccountSortCode}"></label>
+                </td>
+                <td>
+                    <input th:id="sourceAccountSortCode" th:type="text" th:field="*{sourceAccountSortCode}" th:value="*{sourceAccountSortCode}"/>
+                </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('sourceAccountSortCode')}" th:errorclass="error" th:errors="*{sourceAccountSortCode}">Source Account SortCode Error</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="sourceAccountNumber" th:text="${'Source Account Number'}" th:field="${sourceAccountNumber}"></label>
+                </td>
+                <td>
+                    <input type="text" th:id="sourceAccountNumber" th:field="*{sourceAccountNumber}" th:text="*{sourceAccountNumber}"/>
+                </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('sourceAccountNumber')}" th:errorclass="error" th:errors="*{sourceAccountNumber}">Last Name Error</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="*{targetAccountSortCode}" th:text="${'Target Account SortCode'}" th:field="*{targetAccountSortCode}"></label>
+                </td>
+                <td>
+                    <input type="text" th:field="*{targetAccountSortCode}" th:text="*{targetAccountSortCode}"/>
+                </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('targetAccountSortCode')}" th:errorclass="error" th:errors="*{targetAccountSortCode}">
+                        Target Account SortCode Error</p></td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="*{targetAccountNumber}" th:text="${'Target Account Number'}" th:field="*{targetAccountNumber}"></label>
+                </td>
+                <td>
+                    <input type="text" th:field="*{targetAccountNumber}" th:text="*{targetAccountNumber}"/>
+                </td>
+                <td>
+                    <p th:if="${#fields.hasErrors('targetAccountNumber')}" th:errorclass="error" th:errors="*{targetAccountNumber}">
+                        Target Account Number Error</p></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label th:for="*{targetOwnerName}" th:text="${'Target Owner Name'}" th:field="*{targetOwnerName}"></label>
+                </td>
+                <td>
+                    <input type="text" th:field="*{targetOwnerName}" th:text="*{targetOwnerName}"/>
+                </td>
+                <td th:if="${#fields.hasErrors('targetOwnerName')}" th:errorclass="error" th:errors="*{targetOwnerName}">Target Owner Name Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="*{amount}" th:text="${'Amount'}" th:field="*{amount}"></label>
+                </td>
+                <td>
+                    <input type="text" th:value="${#numbers.formatDecimal(transaction.amount,  1, 'DEFAULT', 2, 'DEFAULT')}" th:field="${transaction.amount}"
+                           class="form-control"/>
+                </td>
+
+                <td th:if="${#fields.hasErrors('amount')}" th:errorclass="error" th:errors="*{amount}">Amount Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="*{reference}" th:text="${'Reference'}" th:field="*{reference}"></label>
+                </td>
+                <td><input type="text" th:field="*{reference}"/></td>
+                <td th:if="${#fields.hasErrors('reference')}" th:errorclass="error" th:errors="*{reference}">Reference Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="*{category}" th:text="${'Category'}" th:field="*{category}"></label>
+                </td>
+                <td><input type="text" th:field="*{category}"/></td>
+                <td th:if="${#fields.hasErrors('category')}" th:errorclass="error" th:errors="*{category}">Category Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:for="*{type}" th:text="${'Type'}" th:field="*{type}"></label>
+                </td>
+                <td>
+                    <select name="Type" th:field="*{type}">
+                        <option th:each="typ : ${T(com.example.demoBankRepository.entity.enums.TransactionType).values()}"
+                                th:value="${typ}"
+                                th:text="${typ.name}"/>
+                    </select>
+                </td>
+                <td th:if="${#fields.hasErrors('type')}" th:errorclass="error" th:errors="*{type}">Type Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <button th:type="submit">Submit</button>
+                </td>
+                <!--/*@thymesVar id="bankResponse" type="com.example.demoBankRepository.dto.BankResponse"*/-->
+                <td th:type="text" th:if="${bankResponse!=null}" th:value="${bankResponse.responseCode}"></td>
+                <td th:type="text" th:if="${bankResponse!=null}" th:value="${bankResponse.responseMessage}"></td>
+                <td th:if="${#fields.hasGlobalErrors()}" th:errorclass="error" th:text="${#fields.errors()}">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
